@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "PinApp"
 include(":app")
- 
+include(":common")
+include(":common:storage")
+include(":feature")
+include(":feature:pin")
