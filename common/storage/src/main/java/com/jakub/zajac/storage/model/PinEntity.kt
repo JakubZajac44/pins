@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class PinEntity (
     @PrimaryKey(autoGenerate = true)
-    val key: Int,
-    val pinCode: Int,
+    val key: Int? = null,
+    val pinCode: String,
     val name: String
 )
