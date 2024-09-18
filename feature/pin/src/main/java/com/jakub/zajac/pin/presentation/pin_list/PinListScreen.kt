@@ -1,4 +1,4 @@
-package com.jakub.zajac.pin.presentation
+package com.jakub.zajac.pin.presentation.pin_list
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
