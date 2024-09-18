@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pin_empty_name_error">Nazwa nie może być pusta</string>
+    <string name="pin_name_text">Nazwa kodu: %1$s</string>
+    <string name="pin_code_text">Pin: %1$s</string>
+    <string name="no_pin_item">Brak zapisanych kodów PIN</string>
+    <string name="bottom_sheet_button_text">Zapisz</string>
+    <string name="bottom_sheet_insert_pin_title">Dodaj nowy kod Pin</string>
+    <string name="bottom_sheet_insert_pin_message">Wpisz nazwę lokalizacji</string>
+    <string name="bottom_sheet_update_pin_title">Aktualizuj nawę lokalizacji</string>
+    <string name="bottom_sheet_update_pin_message">Wpisz nową nazwę lokalizacji</string>
+</resources>
