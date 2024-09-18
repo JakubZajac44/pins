@@ -50,47 +50,59 @@ class PinViewModel @Inject constructor(
     fun onEvent(event: PinListEvent) {
         when (event) {
             is PinListEvent.AddNewPinTyped -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    val errorMessage =
-                        addNewPinUseCase.invoke(generateRandomPinUseCase.invoke(), event.pinName)
-                    errorMessage?.let { errorResource ->
-                        _sideEffectChannel.trySend(
-                            SideEffect.ShowToast(
-                                UiText.StringResource(
-                                    errorResource
-                                )
-                            )
-                        )
-                    }
-                }
+                addNewPint(event)
             }
 
             is PinListEvent.DeletePinTyped -> {
-                state.value.firstOrNull { it.id == event.id }?.let { pin ->
-                    viewModelScope.launch(Dispatchers.IO) {
-                        deletePinUseCase.invoke(pin.toPinModel())
-                    }
-                }
+                deletePin(event)
             }
 
             is PinListEvent.UpdatePinType -> {
-                state.value.firstOrNull { it.id == event.id }?.let { pin ->
-                    viewModelScope.launch(Dispatchers.IO) {
-                        val errorMessage = updatePinUseCase.invoke(
-                            pin.toPinModel().copy(
-                                name = event.name
+                updatePin(event)
+            }
+        }
+    }
+
+    private fun addNewPint(item: PinListEvent.AddNewPinTyped) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val errorMessage =
+                addNewPinUseCase.invoke(generateRandomPinUseCase.invoke(), item.pinName)
+            errorMessage?.let { errorResource ->
+                _sideEffectChannel.trySend(
+                    SideEffect.ShowToast(
+                        UiText.StringResource(
+                            errorResource
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    private fun deletePin(item: PinListEvent.DeletePinTyped) {
+        state.value.firstOrNull { it.id == item.id }?.let { pin ->
+            viewModelScope.launch(Dispatchers.IO) {
+                deletePinUseCase.invoke(pin.toPinModel())
+            }
+        }
+    }
+
+    private fun updatePin(item: PinListEvent.UpdatePinType) {
+        state.value.firstOrNull { it.id == item.id }?.let { pin ->
+            viewModelScope.launch(Dispatchers.IO) {
+                val errorMessage = updatePinUseCase.invoke(
+                    pin.toPinModel().copy(
+                        name = item.name
+                    )
+                )
+                errorMessage?.let { errorResource ->
+                    _sideEffectChannel.trySend(
+                        SideEffect.ShowToast(
+                            UiText.StringResource(
+                                errorResource
                             )
                         )
-                        errorMessage?.let { errorResource ->
-                            _sideEffectChannel.trySend(
-                                SideEffect.ShowToast(
-                                    UiText.StringResource(
-                                        errorResource
-                                    )
-                                )
-                            )
-                        }
-                    }
+                    )
                 }
             }
         }
