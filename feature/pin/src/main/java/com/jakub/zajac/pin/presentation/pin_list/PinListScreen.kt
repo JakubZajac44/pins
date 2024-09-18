@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,7 +47,7 @@ fun PinListScreen(
         mutableStateOf(false)
     }
 
-    var bottomSheetType: PinBottomSheetMode? by rememberSaveable {
+    var bottomSheetType: PinBottomSheetMode? by remember {
         mutableStateOf(null)
     }
 
@@ -62,7 +63,9 @@ fun PinListScreen(
 
         if (pinList.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = PaddingValues(vertical = 20.dp)
             ) {
