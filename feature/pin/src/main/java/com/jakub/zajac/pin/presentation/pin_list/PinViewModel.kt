@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PinViewModel @Inject constructor(
-    private val getAllPinsUseCase: GetAllPinsUseCase,
+    getAllPinsUseCase: GetAllPinsUseCase,
     private val addNewPinUseCase: AddNewPinUseCase,
     private val deletePinUseCase: DeletePinUseCase,
     private val updatePinUseCase: UpdatePinUseCase,
