@@ -70,7 +70,7 @@ class PinViewModel @Inject constructor(
                 }
             }
 
-            is PinListEvent.UpdateNewPinType -> {
+            is PinListEvent.UpdatePinType -> {
                 state.value.firstOrNull { it.id == event.id }?.let { pin ->
                     viewModelScope.launch(Dispatchers.IO) {
                         val errorMessage = updatePinUseCase.invoke(

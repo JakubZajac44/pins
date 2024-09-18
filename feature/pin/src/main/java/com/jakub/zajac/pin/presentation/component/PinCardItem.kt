@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,7 +30,7 @@ import com.jakub.zajac.pin.presentation.pin_list.PinItemState
 fun PinCardItem(
     modifier: Modifier = Modifier,
     pinItem: PinItemState,
-    itemClickedUpdate: (Int) -> Unit,
+    itemClickedUpdate: (PinItemState) -> Unit,
     itemClickedDelete: (Int) -> Unit
 ) {
     ElevatedCard {
@@ -42,7 +41,7 @@ fun PinCardItem(
                 .fillMaxWidth()
                 .height(80.dp)
                 .clickable {
-                    itemClickedUpdate.invoke(item.id)
+                    itemClickedUpdate.invoke(item)
                 }
                 .background(MaterialTheme.colorScheme.secondaryContainer)) {
 
@@ -74,7 +73,7 @@ fun PinCardItem(
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = null,
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
