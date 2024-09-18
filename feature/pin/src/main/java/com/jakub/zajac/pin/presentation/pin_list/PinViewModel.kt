@@ -1,4 +1,4 @@
-package com.jakub.zajac.pin.presentation
+package com.jakub.zajac.pin.presentation.pin_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
