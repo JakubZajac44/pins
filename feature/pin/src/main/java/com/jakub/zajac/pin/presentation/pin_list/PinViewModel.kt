@@ -29,10 +29,13 @@ class PinViewModel @Inject constructor(
     private val generateRandomPinUseCase: GenerateRandomPinUseCase
 ) : ViewModel() {
 
-    val state = getAllPinsUseCase.invoke().map {
-        it.map { item ->
+    val state = getAllPinsUseCase.invoke().map { list ->
+        list.map { item ->
             item.toPinItemState()
-        }
+        }.sortedWith(
+            compareBy(String.CASE_INSENSITIVE_ORDER) { it.pinName }
+        )
+
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
