@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -28,7 +29,11 @@ class PinViewModel @Inject constructor(
     private val generateRandomPinUseCase: GenerateRandomPinUseCase
 ) : ViewModel() {
 
-    val state = getAllPinsUseCase.invoke().stateIn(
+    val state = getAllPinsUseCase.invoke().map {
+        it.map { item ->
+            item.toPinItemState()
+        }
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()
@@ -60,7 +65,7 @@ class PinViewModel @Inject constructor(
             is PinListEvent.DeletePinTyped -> {
                 state.value.firstOrNull { it.id == event.id }?.let { pin ->
                     viewModelScope.launch(Dispatchers.IO) {
-                        deletePinUseCase.invoke(pin)
+                        deletePinUseCase.invoke(pin.toPinModel())
                     }
                 }
             }
@@ -69,7 +74,7 @@ class PinViewModel @Inject constructor(
                 state.value.firstOrNull { it.id == event.id }?.let { pin ->
                     viewModelScope.launch(Dispatchers.IO) {
                         val errorMessage = updatePinUseCase.invoke(
-                            pin.copy(
+                            pin.toPinModel().copy(
                                 name = event.name
                             )
                         )
